@@ -1,0 +1,13 @@
+# Puppetmaster configuration options
+
+# Server type: webrick or mongrel
+SERVERTYPE=webrick
+
+# Number of instances
+PUPPETMASTERS=1
+
+# Listening port
+PORT=8140
+
+# Other options
+DAEMONOPTS=""

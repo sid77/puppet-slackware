@@ -1,0 +1,4 @@
+# Puppet configuration options
+
+# Agent options
+DAEMONOPTS=""

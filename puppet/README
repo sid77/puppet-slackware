@@ -1,0 +1,23 @@
+Puppet is an enterprise systems management platform that standardizes the way
+IT staff deploy and manage infrastructure in the enterprise and the cloud.
+By automating the provisioning, patching, and configuration of operating
+system and application components across infrastructure, Puppet enables IT
+staff to master their infrastructure even as complexity grows.
+
+The shift to cloud-based services has dramatically altered the IT landscape as
+we know it. Enterprise infrastructure borders have expanded beyond the
+firewall and now include hosted applications and infrastructure from Amazon
+Web Services and other providers.
+Puppet helps DevOps teams meet their common objectives, creating a seamless IT
+infrastructure across departments, reducing cost and increasing productivity.
+
+This package will install a bare puppet setup: to have it working reliably,
+remember to setup an appropriate /etc/puppet/puppet.conf and to populate both
+/etc/puppet/manifests and /etc/puppet/modules.
+
+Default server type for puppet master is webrick, support for mongrel is
+present but in order to use it you have to install the mongrel ruby library on
+your own. Be careful to add it to ruby 1.8!
+
+This package requires facter and ruby1.8, available from sid77.slackware.it as
+well.

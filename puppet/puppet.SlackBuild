@@ -1,0 +1,115 @@
+#!/bin/sh
+
+# Slackware build script for Puppet.
+
+# Copyright 2011-2012 Marco Bonetti <sid77@slackware.it>
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+# EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+#
+# This SlackBuilds requires ruby1.8 !
+#
+
+PRGNAM=puppet
+VERSION=${VERSION:-2.6.4}
+BUILD=${BUILD:-1}
+TAG=${TAG:-_sid77}
+
+# Select puppet's default user/group
+# At time of writing, 249 is the next available UID/GID couple over at
+# http://slackbuilds.org/uid_gid.txt
+PUPPET_USER=${PUPPET_USER:-puppet}
+PUPPET_UID=${PUPPET_UID:-249}
+PUPPET_GROUP=${PUPPET_GROUP:-puppet}
+PUPPET_GID=${PUPPET_GID:-249}
+
+ARCH="noarch"
+
+bailout() {
+  echo "  You must have a $PUPPET_USER user and $PUPPET_GROUP group to run this script. "
+  echo "  Something like this should suffice for most systems: "
+  echo "    # groupadd -g $PUPPET_GID $PUPPET_GROUP "
+  echo "    # useradd -u $PUPPET_UID -g $PUPPET_GID -c \"Puppet configuration management daemon\" -d /dev/null -s /bin/false $PUPPET_USER "
+  exit 1
+}
+
+# Bail if user and/or group isn't valid on your system
+if ! grep -q "^$PUPPET_USER:" /etc/passwd; then
+  bailout
+elif ! grep -q "^$PUPPET_GROUP:" /etc/group; then
+  bailout
+fi
+
+CWD=$(pwd)
+TMP=${TMP:-/tmp}
+PKG=$TMP/package-$PRGNAM
+OUTPUT=${OUTPUT:-/tmp}
+
+DOCS="COPYING LICENSE README"
+
+set -e
+
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+rm -rf $PRGNAM-$VERSION
+tar xvf $CWD/$PRGNAM-$VERSION.tar.gz
+cd $PRGNAM-$VERSION
+
+chown -R root:root .
+find . \
+ \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+ -exec chmod 755 {} \; -o \
+ \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+ -exec chmod 644 {} \;
+
+ruby1.8 install.rb --destdir=$PKG
+
+# Save config file
+mv $PKG/etc/puppet/auth.conf $PKG/etc/puppet/auth.conf.new
+# Install required directory
+mkdir -p $PKG/etc/puppet/manifests
+mkdir -p $PKG/etc/puppet/modules
+mkdir -p $PKG/var/lib/puppet
+chown -R $PUPPET_USER:$PUPPET_GROUP $PKG/var/lib/puppet
+mkdir -p $PKG/var/log/puppet
+chown -R $PUPPET_USER:$PUPPET_GROUP $PKG/var/log/puppet
+mkdir -p $PKG/var/run/puppet
+chown -R $PUPPET_USER:$PUPPET_GROUP $PKG/var/run/puppet
+# Install rc scripts
+mkdir -p $PKG/etc/rc.d
+cat $CWD/rc.puppet.new > $PKG/etc/rc.d/rc.puppet.new
+cat $CWD/rc.puppet.conf.new > $PKG/etc/rc.d/rc.puppet.conf.new
+cat $CWD/rc.puppetmaster.new > $PKG/etc/rc.d/rc.puppetmaster.new
+cat $CWD/rc.puppetmaster.conf.new > $PKG/etc/rc.d/rc.puppetmaster.conf.new
+
+# Compress man pages
+find $PKG/usr/man -type f -exec gzip -9 {} \;
+for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
+
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a $DOCS $PKG/usr/doc/$PRGNAM-$VERSION
+cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+cat $CWD/doinst.sh > $PKG/install/doinst.sh
+
+cd $PKG
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}

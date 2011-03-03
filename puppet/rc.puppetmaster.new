@@ -1,0 +1,97 @@
+#! /bin/sh
+
+#
+# Start a Puppet master daemon
+#
+
+NAME=puppetmaster
+DAEMON=/usr/bin/puppet
+ROLE=master
+LOGDIR=/var/log/puppet
+PIDDIR=/var/run/puppet
+
+. /etc/rc.d/rc.puppetmaster.conf
+
+start() {
+  if [ "$SERVERTYPE" = "mongrel" ]; then
+    DAEMONOPTS="$DAEMONOPTS --servertype=mongrel"
+    MASTERINST=0
+    MASTERPORT=$PORT
+    while [ $MASTERINST -lt $PUPPETMASTERS ]; do
+      $DAEMON $ROLE $DAEMONOPTS --masterport=$MASTERPORT --logdir=$LOGDIR --pidfile=$PIDDIR/$NAME-$MASTERPORT.pid
+      MASTERINST=$(($MASTERINST + 1))
+      MASTERPORT=$(($MASTERPORT + 1))
+    done
+  else
+    DAEMONOPTS="$DAEMONOPTS --servertype=webrick"
+    $DAEMON $ROLE $DAEMONOPTS --masterport=$PORT --logdir=$LOGDIR --pidfile=$PIDDIR/$NAME.pid
+  fi
+}
+
+stop() {
+  if [ "$SERVERTYPE" = "mongrel" ]; then
+    MASTERINST=0
+    MASTERPORT=$PORT
+    while [ $MASTERINST -lt $PUPPETMASTERS ]; do
+      kill `cat $PIDDIR/$NAME-$MASTERPORT.pid`
+      rm -f $PIDDIR/$NAME-$MASTERPORT.pid
+      MASTERINST=$(($MASTERINST + 1))
+      MASTERPORT=$(($MASTERPORT + 1))
+    done
+  else
+    kill `cat $PIDDIR/$NAME.pid`
+    rm -f $PIDDIR/$NAME.pid
+  fi
+}
+
+status() {
+  if [ "$SERVERTYPE" = "mongrel" ]; then
+    MASTERINST=0
+    MASTERPORT=$PORT
+    while [ $MASTERINST -lt $PUPPETMASTERS ]; do
+      NOTRUNNING=1
+      if [ -r $NAME-$MASTERPORT.pid ]; then
+        ps `cat $PIDDIR/$NAME-$MASTERPORT.pid` >> /dev/null 2>&1
+        NOTRUNNING=$?
+      fi
+      echo -n "$NAME-$MASTERPORT is "
+      if [ $NOTRUNNING -eq 1 ]; then
+        echo -n "not "
+      fi
+      echo "running"
+      MASTERINST=$(($MASTERINST + 1))
+      MASTERPORT=$(($MASTERPORT + 1))
+    done
+  else
+    NOTRUNNING=1
+    if [ -r $PIDDIR/$NAME.pid ]; then
+      ps `cat $PIDDIR/$NAME.pid` >> /dev/null 2>&1
+      NOTRUNNING=$?
+    fi
+    echo -n "$NAME is "
+    if [ $NOTRUNNING -eq 1 ]; then
+      echo -n "not "
+    fi
+    echo "running"
+  fi
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    sleep 1
+    start
+    ;;
+  status)
+    status
+    ;;
+  *)
+    echo "Usage: $0 (start|stop|restart|status)"
+    ;;
+esac
