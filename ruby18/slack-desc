@@ -5,15 +5,15 @@
 # exactly 11 lines for the formatting to be correct.  It's also customary to
 # leave one space after the ':'.
 
-       |-----handy-ruler------------------------------------------------------|
-ruby1.8: ruby1.8 (Interpreted object-oriented scripting language)
-ruby1.8:
-ruby1.8: Ruby is an interpreted scripting language for quick and easy
-ruby1.8: object-oriented programming.  It has many features to process text
-ruby1.8: files and to do system management tasks (as in Perl).  It is simple,
-ruby1.8: straight-forward, and extensible.
-ruby1.8:
-ruby1.8: Visit the Ruby project online at http://www.ruby-lang.org/
-ruby1.8:
-ruby1.8: This is the latest version for 1.8 tree.
-ruby1.8:
+      |-----handy-ruler------------------------------------------------------|
+ruby18: ruby18 (Interpreted object-oriented scripting language)
+ruby18:
+ruby18: Ruby is an interpreted scripting language for quick and easy
+ruby18: object-oriented programming.  It has many features to process text
+ruby18: files and to do system management tasks (as in Perl).  It is simple,
+ruby18: straight-forward, and extensible.
+ruby18:
+ruby18: Visit the Ruby project online at http://www.ruby-lang.org/
+ruby18:
+ruby18: This is the latest version for 1.8 tree.
+ruby18:

@@ -20,7 +20,7 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Modified by Marco Bonetti for coexistance with ruby-1.9
+# Modified by Marco Bonetti for coexistance with ruby 1.9
 
 VERSION=1.8.7-p334
 ARCH=${ARCH:-i486}
@@ -30,7 +30,7 @@ TAG=${TAG:-_sid77}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
-PKG=$TMP/package-ruby1.8
+PKG=$TMP/package-ruby18
 
 if [ "$ARCH" = "i486" ]; then
   SLKCFLAGS="-O2 -march=i486 -mtune=i686"
@@ -70,20 +70,20 @@ CFLAGS="$SLKCFLAGS" \
   --libdir=/usr/lib${LIBDIRSUFFIX} \
   --mandir=/usr/man \
   --datadir=/usr/share \
-  --docdir=/usr/doc/ruby1.8-$VERSION \
+  --docdir=/usr/doc/ruby18-$VERSION \
   --enable-shared \
   --enable-install-doc \
   --enable-static \
-  --program-suffix=1.8
+  --program-suffix=18
   --build=$ARCH-slackware-linux
 
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
 
-mkdir -p $PKG/usr/doc/ruby1.8-$VERSION
+mkdir -p $PKG/usr/doc/ruby18-$VERSION
 cp -a \
   COPYING* *GPL* LEGAL NEWS README* ToDo \
-  $PKG/usr/doc/ruby1.8-$VERSION
+  $PKG/usr/doc/ruby18-$VERSION
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
@@ -107,5 +107,5 @@ mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/ruby1.8-$(echo $VERSION | tr - _)-$ARCH-$BUILD$TAG.txz
+/sbin/makepkg -l y -c n $TMP/ruby18-$(echo $VERSION | tr - _)-$ARCH-$BUILD$TAG.txz
 
