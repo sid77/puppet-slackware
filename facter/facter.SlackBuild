@@ -23,7 +23,7 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #
-# This SlackBuilds requires ruby1.8 !
+# This SlackBuilds requires ruby18 !
 #
 
 PRGNAM=facter
@@ -56,7 +56,7 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-ruby1.8 install.rb --destdir=$PKG
+ruby18 install.rb --destdir=$PKG
 # Empty directories
 rmdir $PKG/usr/man
 rmdir $PKG/usr/sbin
