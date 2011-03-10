@@ -19,5 +19,5 @@ Default server type for puppet master is webrick, support for mongrel is
 present but in order to use it you have to install the mongrel ruby library on
 your own. Be careful to add it to ruby 1.8!
 
-This package requires facter and ruby1.8, available from sid77.slackware.it as
+This package requires facter and ruby18, available from sid77.slackware.it as
 well.
