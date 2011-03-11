@@ -31,10 +31,10 @@ VERSION=${VERSION:-1.5.8}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_sid77}
 
-ARCH="noarch"
+ARCH=${ARCH:-i486}
 
 CWD=$(pwd)
-TMP=${TMP:-/tmp}
+TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM
 OUTPUT=${OUTPUT:-/tmp}
 
