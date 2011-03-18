@@ -64,7 +64,7 @@ mv $PKG/usr/bin/gem18 $PKG/usr/bin/gem18.rb
 cat << EOF > $PKG/usr/bin/gem18
 #!/bin/sh
 export GEM_PATH=/usr/lib${LIBDIRSUFFIX}/ruby/gems/1.8
-/usr/bin/gem18.rb $@
+/usr/bin/gem18.rb \$@
 EOF
 chmod 755 $PKG/usr/bin/gem18
 
