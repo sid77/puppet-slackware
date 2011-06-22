@@ -22,12 +22,8 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#
-# This SlackBuilds requires ruby18 !
-#
-
 PRGNAM=puppet
-VERSION=${VERSION:-2.6.7}
+VERSION=${VERSION:-2.7.0}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_sid77}
 
@@ -67,7 +63,7 @@ elif [ "$ARCH" = "x86_64" ]; then
   LIBDIRSUFFIX="64"
 fi
 
-DOCS="COPYING LICENSE README"
+DOCS="LICENSE"
 
 set -e
 
@@ -85,7 +81,7 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-ruby18 install.rb --destdir=$PKG
+ruby install.rb --destdir=$PKG
 
 # Save config file
 mv $PKG/etc/puppet/auth.conf $PKG/etc/puppet/auth.conf.new
