@@ -1,1 +1,2 @@
+@ruby192
 facter
