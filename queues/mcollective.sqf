@@ -1,2 +1,2 @@
-@rubygem18-stomp
+@rubygem192-stomp
 mcollective
