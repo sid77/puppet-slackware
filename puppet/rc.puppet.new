@@ -5,7 +5,8 @@
 #
 
 NAME=puppet
-DAEMON=/usr/bin/puppet
+#DAEMON=/usr/bin/puppet
+DAEMON=/opt/ruby/1.9.2-p180/bin/puppet
 ROLE=agent
 LOGDIR=/var/log/puppet
 PIDDIR=/var/run/puppet

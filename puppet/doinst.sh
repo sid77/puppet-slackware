@@ -25,6 +25,7 @@ if [ -e etc/rc.d/rc.puppetmaster ]; then
 fi
 
 config etc/rc.d/rc.puppet.new
+config etc/rc.d/rc.puppet.conf.new
 config etc/rc.d/rc.puppetmaster.new
 config etc/rc.d/rc.puppetmaster.conf.new
 config etc/puppet/auth.conf.new
