@@ -22,6 +22,10 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#
+# This SlackBuilds requires ruby192
+#
+
 PRGNAM=facter
 VERSION=${VERSION:-1.5.9}
 BUILD=${BUILD:-1}
@@ -52,10 +56,11 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-ruby install.rb --destdir=$PKG
-# Empty directories
-rmdir $PKG/usr/man
-rmdir $PKG/usr/sbin
+ruby192 install.rb --destdir=$PKG
+
+## Empty directories - for future reference
+#rmdir $PKG/usr/man
+#rmdir $PKG/usr/sbin
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a $DOCS $PKG/usr/doc/$PRGNAM-$VERSION
