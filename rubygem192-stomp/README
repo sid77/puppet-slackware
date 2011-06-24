@@ -1,3 +1,3 @@
 Ruby bindings for the stomp messaging protocol.
 
-This package requires rubygems18.
+This package requires ruby192.

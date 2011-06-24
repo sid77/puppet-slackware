@@ -1,4 +1,4 @@
-PRGNAM="rubygem18-stomp"
+PRGNAM="rubygem192-stomp"
 VERSION="1.1"
 HOMEPAGE="http://rubyforge.org/projects/stomp/"
 DOWNLOAD="http://rubyforge.org/frs/download.php/52442/stomp-1.1.gem"

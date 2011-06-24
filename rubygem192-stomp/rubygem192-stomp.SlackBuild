@@ -23,10 +23,10 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #
-# This SlackBuilds requires ruby18 and rubygems18!
+# This SlackBuilds requires ruby192
 #
 
-PRGNAM=rubygem18-stomp
+PRGNAM=rubygem192-stomp
 VERSION=${VERSION:-1.1}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_sid77}
@@ -69,7 +69,7 @@ mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
 
 # Get the full path of the ruby installation, for gems
-DESTDIR=$( ruby18 -r rbconfig -e '
+DESTDIR=$( ruby192 -r rbconfig -e '
 include RbConfig
 printf("%s/ruby/gems/%s\n",
 	CONFIG["libdir"],
@@ -80,8 +80,10 @@ printf("%s/ruby/gems/%s\n",
 # print a friendly warning of unsatisfied ":runtime" dependencies
 # good to leave in place, even if the gem doesn't have any dependencies. 
 # things could always change
-gem18 specification $CWD/$SRCNAM-$VERSION.gem | \
-	ruby18 -r yaml -r rbconfig -e '
+gem192 specification $CWD/$SRCNAM-$VERSION.gem | \
+	ruby192 -e '
+require "yaml"
+require "rubygems"
 c = Config::CONFIG
 path = sprintf("%s/ruby/gems/%s",
         c["libdir"],
@@ -99,13 +101,22 @@ obj.dependencies.each {|dep|
 
 }'
 
-gem18 install \
+# for future reference
+#gem192 install \
+#	--local \
+#	--no-update-sources \
+#	--ignore-dependencies \
+#	--backtrace \
+#	--install-dir $PKG/$DESTDIR \
+#	--bindir $PKG/usr/bin \
+#	$CWD/$SRCNAM-$VERSION.gem
+
+gem192 install \
 	--local \
 	--no-update-sources \
 	--ignore-dependencies \
 	--backtrace \
 	--install-dir $PKG/$DESTDIR \
-	--bindir $PKG/usr/bin \
 	$CWD/$SRCNAM-$VERSION.gem
 
 # Strip binaries and libraries.
@@ -119,14 +130,12 @@ rm -rf $PKG/$DESTDIR/cache
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 tar -x -O --file=$CWD/$SRCNAM-$VERSION.gem data.tar.gz | tar -xz -C $PKG/usr/doc/$PRGNAM-$VERSION --file=- \
   README.rdoc \
-  LICENSE \
-  $PKG/usr/doc/$PRGNAM-$VERSION
+  LICENSE
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 # Copy the slack-desc (and a custom doinst.sh if necessary) into ./install
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
-cat $CWD/doinst.sh > $PKG/install/doinst.sh
 
 # Make the package
 cd $PKG

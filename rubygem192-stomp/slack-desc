@@ -5,15 +5,15 @@
 # make exactly 11 lines for the formatting to be correct.  It's also
 # customary to leave one space after the ':'.
 
-               |-----handy-ruler------------------------------------------------------|
-rubygem18-stomp: rubygem18-stomp (Ruby 1.8 Stomp library)
-rubygem18-stomp:
-rubygem18-stomp: Ruby bindings for the stomp messaging protocol.
-rubygem18-stomp:
-rubygem18-stomp:
-rubygem18-stomp:
-rubygem18-stomp:
-rubygem18-stomp:
-rubygem18-stomp:
-rubygem18-stomp:
-rubygem18-stomp:
+                |-----handy-ruler------------------------------------------------------|
+rubygem192-stomp: rubygem192-stomp (Ruby 1.9.2 Stomp library)
+rubygem192-stomp:
+rubygem192-stomp: Ruby bindings for the stomp messaging protocol.
+rubygem192-stomp:
+rubygem192-stomp:
+rubygem192-stomp:
+rubygem192-stomp:
+rubygem192-stomp:
+rubygem192-stomp:
+rubygem192-stomp:
+rubygem192-stomp:
