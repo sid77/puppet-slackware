@@ -23,11 +23,11 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #
-# This SlackBuilds requires ruby18 !
+# This SlackBuilds requires ruby192 !
 #
 
 PRGNAM=mcollective
-VERSION=${VERSION:-1.0.1}
+VERSION=${VERSION:-1.2.0}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_sid77}
 
@@ -64,7 +64,8 @@ find . \
 
 # I swear these are the official installation instruction, straight from the
 # RH/SUSE mcollective.spec shipped within the source code
-install -d -m0755 $PKG/usr/lib${LIBDIRSUFFIX}/ruby/site_ruby/1.8/mcollective
+#install -d -m0755 $PKG/usr/lib${LIBDIRSUFFIX}/ruby/site_ruby/1.8/mcollective
+install -d -m0755 $PKG/opt/ruby/1.9.2-p180/lib/ruby/site_ruby/1.9.1/mcollective
 install -d -m0755 $PKG/usr/sbin
 install -d -m0755 $PKG/etc/rc.d
 install -d -m0755 $PKG/usr/libexec/mcollective/
@@ -76,13 +77,14 @@ install -m0640 etc/server.cfg.dist $PKG/etc/mcollective/server.cfg.new
 install -m0644 etc/client.cfg.dist $PKG/etc/mcollective/client.cfg.new
 install -m0444 etc/facts.yaml.dist $PKG/etc/mcollective/facts.yaml.new
 install -m0444 etc/rpc-help.erb $PKG/etc/mcollective/rpc-help.erb.new
-install -m0755 $CWD/rc.mcollective.new $PKG/etc/rc.d/rc.mcollective.new
-cp -R lib/* $PKG/usr/lib${LIBDIRSUFFIX}/ruby/site_ruby/1.8/
+install -m0644 $CWD/rc.mcollectived.new $PKG/etc/rc.d/rc.mcollectived.new
+#cp -R lib/* $PKG/usr/lib${LIBDIRSUFFIX}/ruby/site_ruby/1.8/
+cp -R lib/* $PKG/opt/ruby/1.9.2-p180/lib/ruby/site_ruby/1.9.1/
 cp -R plugins/* $PKG/usr/libexec/mcollective/
 cp mc-* $PKG/usr/sbin/
 chmod 0755 $PKG/usr/sbin/mc-*
 # Fix ruby
-find $PKG -type f -exec sed -i -e "s:#!/usr/bin/env ruby:#!/usr/bin/env ruby18:g" \{\} \;
+find $PKG -type f -exec sed -i -e "s:#!/usr/bin/env ruby:#!/usr/bin/env ruby192:g" \{\} \;
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a $DOCS $PKG/usr/doc/$PRGNAM-$VERSION
