@@ -2,4 +2,4 @@ Facter is a library for collecting facts about your system. These facts are
 mostly strings (i.e., not numbers), and are things like the output of uname,
 public ssh and cfengine keys, the number of processors, etc.
 
-This package requires ruby18, available from sid77.slackware.it.
+This package requires ruby192, available from sid77.slackware.it.

@@ -15,5 +15,5 @@ The focus is on catering to the needs of enterprises and large deploys.
 Pluggable Authentication, Authorization and Auditing capabilities sets it
 apart from other tools in this space.
 
-This package requires ruby18, rubygems18 and rubygem18-stomp available from
+This package requires ruby192 and rubygem192-stomp available from
 sid77.slackware.it as well.

@@ -18,8 +18,6 @@ with the --genconfig option are shipped within /etc/puppet folder.
 
 Default server type for puppet master is webrick, support for mongrel is
 present but in order to use it you have to install the mongrel ruby library
-using rubygems18: "gem18 install mongrel"
+using ruby192: "gem192 install mongrel".
 
-This package requires facter and ruby18. An optional dependency is rubygems18,
-in case you want to install the mongrel gem. All of these SlackBuilds are
-available from sid77.slackware.it as well.
+This package requires facter and ruby192, available from sid77.slackware.it.
