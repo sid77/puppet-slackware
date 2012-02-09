@@ -27,7 +27,7 @@
 #
 
 PRGNAM=facter
-VERSION=${VERSION:-1.5.9}
+VERSION=${VERSION:-1.6.5}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_sid77}
 
