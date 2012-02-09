@@ -27,7 +27,7 @@
 #
 
 PRGNAM=puppet
-VERSION=${VERSION:-2.7.0}
+VERSION=${VERSION:-2.7.10}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_sid77}
 
@@ -67,7 +67,7 @@ elif [ "$ARCH" = "x86_64" ]; then
   LIBDIRSUFFIX="64"
 fi
 
-DOCS="LICENSE"
+DOCS="LICENSE README.md"
 
 set -e
 
