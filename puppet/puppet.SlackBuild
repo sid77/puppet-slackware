@@ -92,8 +92,8 @@ mv $PKG/etc/puppet/auth.conf $PKG/etc/puppet/auth.conf.new
 # Install required directory
 mkdir -p $PKG/etc/puppet/manifests
 mkdir -p $PKG/etc/puppet/modules
-mkdir -p $PKG/var/lib${LIBDIRSUFFIX}/puppet
-chown -R $PUPPET_USER:$PUPPET_GROUP $PKG/var/lib${LIBDIRSUFFIX}/puppet
+mkdir -p $PKG/var/lib/puppet
+chown -R $PUPPET_USER:$PUPPET_GROUP $PKG/var/lib/puppet
 mkdir -p $PKG/var/log/puppet
 chown -R $PUPPET_USER:$PUPPET_GROUP $PKG/var/log/puppet
 mkdir -p $PKG/var/run/puppet
@@ -107,10 +107,6 @@ cat $CWD/rc.puppetmaster.conf.new > $PKG/etc/rc.d/rc.puppetmaster.conf.new
 # Add sample configuration files
 cat $CWD/puppet.conf.sample-master > $PKG/etc/puppet/puppet.conf.sample-master
 cat $CWD/puppet.conf.sample-client > $PKG/etc/puppet/puppet.conf.sample-client
-if [ $ARCH = "x86_64" ]; then
-  sed -i -e "s:/lib/:/lib${LIBDIRSUFFIX}/:g" $PKG/etc/puppet/puppet.conf.sample-master
-  sed -i -e "s:/lib/:/lib${LIBDIRSUFFIX}/:g" $PKG/etc/puppet/puppet.conf.sample-client
-fi
 
 ## Compress man pages - for future reference
 #find $PKG/usr/man -type f -exec gzip -9 {} \;
