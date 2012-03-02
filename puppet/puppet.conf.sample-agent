@@ -1,4 +1,4 @@
-# The configuration file for master.  Note that this file
+# The configuration file for agent.  Note that this file
 # is likely to have unused configuration parameters in it; any parameter that's
 # valid anywhere in Puppet can be in any config file, even if it's not used.
 # 
@@ -7,9 +7,9 @@
 # their specification.  Puppet will sometimes use these parameters to check its
 # own configured state, so they can be used to make Puppet a bit more self-managing.
 # 
-# Generated on 2012-03-02 09:51:00 +0100.
+# Generated on 2012-03-02 09:50:35 +0100.
 # 
-[master]
+[agent]
     # The main Puppet configuration directory.  The default for this parameter is calculated based on the user.  If the process
     # is running as root or the user that Puppet is supposed to run as, it defaults to a system directory, but if it's running as any other user,
     # it defaults to being in the user's home directory.
@@ -149,12 +149,12 @@
     # catalog_terminus = compiler
 
     # The node facts terminus.
-    # The default value is 'yaml'.
-    # facts_terminus = yaml
+    # The default value is 'facter'.
+    # facts_terminus = facter
 
     # Should usually be the same as the facts terminus
     # The default value is '$facts_terminus'.
-    inventory_terminus = yaml
+    inventory_terminus = facter
 
     # Where the puppet agent web server logs.
     # The default value is '$logdir/http.log'.
@@ -456,13 +456,13 @@
     # The default value is '$cadir/inventory.txt'.
     cert_inventory = /etc/puppet/ssl/ca/inventory.txt
 
-    # The configuration file for master.
+    # The configuration file for agent.
     # The default value is '$confdir/puppet.conf'.
     config = /etc/puppet/puppet.conf
 
     # The pid file
     # The default value is '$rundir/$name.pid'.
-    pidfile = /var/lib/puppet/run/master.pid
+    pidfile = /var/lib/puppet/run/agent.pid
 
     # The address a listening server should bind to.  Mongrel servers
     # default to 127.0.0.1 and WEBrick defaults to 0.0.0.0.
@@ -475,148 +475,6 @@
     # speak SSL.
     # The default value is 'webrick'.
     # servertype = webrick
-
-    # The user puppet master should run as.
-    # The default value is 'puppet'.
-    # user = puppet
-
-    # The group puppet master should run as.
-    # The default value is 'puppet'.
-    # group = puppet
-
-    # Where puppet master looks for its manifests.
-    # The default value is '$confdir/manifests'.
-    manifestdir = /etc/puppet/manifests
-
-    # The entry-point manifest for puppet master.
-    # The default value is '$manifestdir/site.pp'.
-    manifest = /etc/puppet/manifests/site.pp
-
-    # Code to parse directly.  This is essentially only used
-    # by `puppet`, and should only be set if you're writing your own Puppet
-    # executable
-    # The default value is ''.
-    # code = 
-
-    # Where puppet master logs.  This is generally not used,
-    # since syslog is the default log destination.
-    # The default value is '$logdir/puppetmaster.log'.
-    masterlog = /var/lib/puppet/log/puppetmaster.log
-
-    # Where the puppet master web server logs.
-    # The default value is '$logdir/masterhttp.log'.
-    masterhttplog = /var/lib/puppet/log/masterhttp.log
-
-    # Which port puppet master listens on.
-    # The default value is '8140'.
-    # masterport = 8140
-
-    # How the puppet master determines the client's identity
-    # and sets the 'hostname', 'fqdn' and 'domain' facts for use in the manifest,
-    # in particular for determining which 'node' statement applies to the client.
-    # Possible values are 'cert' (use the subject's CN in the client's
-    # certificate) and 'facter' (use the hostname that the client
-    # reported in its facts)
-    # The default value is 'cert'.
-    # node_name = cert
-
-    # Where FileBucket files are stored.
-    # The default value is '$vardir/bucket'.
-    bucketdir = /var/lib/puppet/bucket
-
-    # The configuration file that defines the rights to the different
-    # rest indirections.  This can be used as a fine-grained
-    # authorization system for `puppet master`.
-    # The default value is '$confdir/auth.conf'.
-    rest_authconfig = /etc/puppet/auth.conf
-
-    # Wether the master should function as a certificate authority.
-    # The default value is 'true'.
-    # ca = true
-
-    # The search path for modules as a list of directories separated by the ':' character.
-    # The default value is '$confdir/modules:/usr/share/puppet/modules'.
-    modulepath = /etc/puppet/modules:/usr/share/puppet/modules
-
-    # The header containing an authenticated
-    # client's SSL DN.  Only used with Mongrel.  This header must be set by the proxy
-    # to the authenticated client's SSL DN (e.g., `/CN=puppet.puppetlabs.com`).
-    # See http://projects.puppetlabs.com/projects/puppet/wiki/Using_Mongrel for more information.
-    # The default value is 'HTTP_X_CLIENT_DN'.
-    # ssl_client_header = HTTP_X_CLIENT_DN
-
-    # The header containing the status
-    # message of the client verification. Only used with Mongrel.  This header must be set by the proxy
-    # to 'SUCCESS' if the client successfully authenticated, and anything else otherwise.
-    # See http://projects.puppetlabs.com/projects/puppet/wiki/Using_Mongrel for more information.
-    # The default value is 'HTTP_X_CLIENT_VERIFY'.
-    # ssl_client_verify_header = HTTP_X_CLIENT_VERIFY
-
-    # The directory in which YAML data is stored, usually in a subdirectory.
-    # The default value is '$vardir/yaml'.
-    yamldir = /var/lib/puppet/yaml
-
-    # The directory in which serialized data is stored, usually in a subdirectory.
-    # The default value is '$vardir/server_data'.
-    server_datadir = /var/lib/puppet/server_data
-
-    # The list of reports to generate.  All reports are looked for
-    # in `puppet/reports/name.rb`, and multiple report names should be
-    # comma-separated (whitespace is okay).
-    # The default value is 'store'.
-    # reports = store
-
-    # The directory in which to store reports
-    # received from the client.  Each client gets a separate
-    # subdirectory.
-    # The default value is '$vardir/reports'.
-    reportdir = /var/lib/puppet/reports
-
-    # The URL used by the http reports processor to send reports
-    # The default value is 'http://localhost:3000/reports/upload'.
-    # reporturl = http://localhost:3000/reports/upload
-
-    # Where the fileserver configuration is stored.
-    # The default value is '$confdir/fileserver.conf'.
-    fileserverconfig = /etc/puppet/fileserver.conf
-
-    # Whether to only search for the complete
-    # hostname as it is in the certificate when searching for node information
-    # in the catalogs.
-    # strict_hostname_checking = false
-
-    # Whether to store each client's configuration, including catalogs, facts,
-    # and related data.  This also enables the import and export of resources in
-    # the Puppet language - a mechanism for exchange resources between nodes.
-    # By default this uses ActiveRecord and an SQL database to store and query
-    # the data; this, in turn, will depend on Rails being available.
-    # You can adjust the backend using the storeconfigs_backend setting.
-    # storeconfigs = false
-
-    # Configure the backend terminus used for StoreConfigs.
-    # By default, this uses the ActiveRecord store, which directly talks to the
-    # database from within the Puppet Master process.
-    # The default value is 'active_record'.
-    # storeconfigs_backend = active_record
-
-    # The directory where RRD database files are stored.
-    # Directories for each reporting host will be created under
-    # this directory.
-    # The default value is '$vardir/rrd'.
-    rrddir = /var/lib/puppet/rrd
-
-    # How often RRD should expect data.
-    # This should match how often the hosts report back to the server.
-    # The default value is '$runinterval'.
-    rrdinterval = 1800
-
-    # The root directory of devices' $vardir
-    # The default value is '$vardir/devices'.
-    devicedir = /var/lib/puppet/devices
-
-    # Path to the device config file for puppet device
-    # The default value is '$confdir/device.conf'.
-    deviceconfig = /etc/puppet/device.conf
 
     # The explicit value used for the node name for all requests the agent
     # makes to the master. WARNING: This setting is mutually exclusive with
@@ -821,6 +679,148 @@
     # It is harmless to activate this settings if your master doesn't support
     # compression, but if it supports it, this setting might reduce performance on high-speed LANs.
     # http_compression = false
+
+    # The user puppet master should run as.
+    # The default value is 'puppet'.
+    # user = puppet
+
+    # The group puppet master should run as.
+    # The default value is 'puppet'.
+    # group = puppet
+
+    # Where puppet master looks for its manifests.
+    # The default value is '$confdir/manifests'.
+    manifestdir = /etc/puppet/manifests
+
+    # The entry-point manifest for puppet master.
+    # The default value is '$manifestdir/site.pp'.
+    manifest = /etc/puppet/manifests/site.pp
+
+    # Code to parse directly.  This is essentially only used
+    # by `puppet`, and should only be set if you're writing your own Puppet
+    # executable
+    # The default value is ''.
+    # code = 
+
+    # Where puppet master logs.  This is generally not used,
+    # since syslog is the default log destination.
+    # The default value is '$logdir/puppetmaster.log'.
+    masterlog = /var/lib/puppet/log/puppetmaster.log
+
+    # Where the puppet master web server logs.
+    # The default value is '$logdir/masterhttp.log'.
+    masterhttplog = /var/lib/puppet/log/masterhttp.log
+
+    # Which port puppet master listens on.
+    # The default value is '8140'.
+    # masterport = 8140
+
+    # How the puppet master determines the client's identity
+    # and sets the 'hostname', 'fqdn' and 'domain' facts for use in the manifest,
+    # in particular for determining which 'node' statement applies to the client.
+    # Possible values are 'cert' (use the subject's CN in the client's
+    # certificate) and 'facter' (use the hostname that the client
+    # reported in its facts)
+    # The default value is 'cert'.
+    # node_name = cert
+
+    # Where FileBucket files are stored.
+    # The default value is '$vardir/bucket'.
+    bucketdir = /var/lib/puppet/bucket
+
+    # The configuration file that defines the rights to the different
+    # rest indirections.  This can be used as a fine-grained
+    # authorization system for `puppet master`.
+    # The default value is '$confdir/auth.conf'.
+    rest_authconfig = /etc/puppet/auth.conf
+
+    # Wether the master should function as a certificate authority.
+    # The default value is 'true'.
+    # ca = true
+
+    # The search path for modules as a list of directories separated by the ':' character.
+    # The default value is '$confdir/modules:/usr/share/puppet/modules'.
+    modulepath = /etc/puppet/modules:/usr/share/puppet/modules
+
+    # The header containing an authenticated
+    # client's SSL DN.  Only used with Mongrel.  This header must be set by the proxy
+    # to the authenticated client's SSL DN (e.g., `/CN=puppet.puppetlabs.com`).
+    # See http://projects.puppetlabs.com/projects/puppet/wiki/Using_Mongrel for more information.
+    # The default value is 'HTTP_X_CLIENT_DN'.
+    # ssl_client_header = HTTP_X_CLIENT_DN
+
+    # The header containing the status
+    # message of the client verification. Only used with Mongrel.  This header must be set by the proxy
+    # to 'SUCCESS' if the client successfully authenticated, and anything else otherwise.
+    # See http://projects.puppetlabs.com/projects/puppet/wiki/Using_Mongrel for more information.
+    # The default value is 'HTTP_X_CLIENT_VERIFY'.
+    # ssl_client_verify_header = HTTP_X_CLIENT_VERIFY
+
+    # The directory in which YAML data is stored, usually in a subdirectory.
+    # The default value is '$vardir/yaml'.
+    yamldir = /var/lib/puppet/yaml
+
+    # The directory in which serialized data is stored, usually in a subdirectory.
+    # The default value is '$vardir/server_data'.
+    server_datadir = /var/lib/puppet/server_data
+
+    # The list of reports to generate.  All reports are looked for
+    # in `puppet/reports/name.rb`, and multiple report names should be
+    # comma-separated (whitespace is okay).
+    # The default value is 'store'.
+    # reports = store
+
+    # The directory in which to store reports
+    # received from the client.  Each client gets a separate
+    # subdirectory.
+    # The default value is '$vardir/reports'.
+    reportdir = /var/lib/puppet/reports
+
+    # The URL used by the http reports processor to send reports
+    # The default value is 'http://localhost:3000/reports/upload'.
+    # reporturl = http://localhost:3000/reports/upload
+
+    # Where the fileserver configuration is stored.
+    # The default value is '$confdir/fileserver.conf'.
+    fileserverconfig = /etc/puppet/fileserver.conf
+
+    # Whether to only search for the complete
+    # hostname as it is in the certificate when searching for node information
+    # in the catalogs.
+    # strict_hostname_checking = false
+
+    # Whether to store each client's configuration, including catalogs, facts,
+    # and related data.  This also enables the import and export of resources in
+    # the Puppet language - a mechanism for exchange resources between nodes.
+    # By default this uses ActiveRecord and an SQL database to store and query
+    # the data; this, in turn, will depend on Rails being available.
+    # You can adjust the backend using the storeconfigs_backend setting.
+    # storeconfigs = false
+
+    # Configure the backend terminus used for StoreConfigs.
+    # By default, this uses the ActiveRecord store, which directly talks to the
+    # database from within the Puppet Master process.
+    # The default value is 'active_record'.
+    # storeconfigs_backend = active_record
+
+    # The directory where RRD database files are stored.
+    # Directories for each reporting host will be created under
+    # this directory.
+    # The default value is '$vardir/rrd'.
+    rrddir = /var/lib/puppet/rrd
+
+    # How often RRD should expect data.
+    # This should match how often the hosts report back to the server.
+    # The default value is '$runinterval'.
+    rrdinterval = 1800
+
+    # The root directory of devices' $vardir
+    # The default value is '$vardir/devices'.
+    devicedir = /var/lib/puppet/devices
+
+    # Path to the device config file for puppet device
+    # The default value is '$confdir/device.conf'.
+    deviceconfig = /etc/puppet/device.conf
 
     # During an inspect run, whether to archive files whose contents are audited to a file bucket.
     # archive_files = false
