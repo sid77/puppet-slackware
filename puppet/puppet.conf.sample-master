@@ -7,16 +7,16 @@
 # their specification.  Puppet will sometimes use these parameters to check its
 # own configured state, so they can be used to make Puppet a bit more self-managing.
 # 
-# Generated on 2012-03-02 09:51:00 +0100.
+# Generated on 2012-03-23 11:26:40 +0100.
 # 
 [master]
-    # The main Puppet configuration directory.  The default for this parameter is calculated based on the user.  If the process
+    # The main Puppet configuration directory.  The default for this setting is calculated based on the user.  If the process
     # is running as root or the user that Puppet is supposed to run as, it defaults to a system directory, but if it's running as any other user,
     # it defaults to being in the user's home directory.
     # The default value is '/etc/puppet'.
     # confdir = /etc/puppet
 
-    # Where Puppet stores dynamic and growing data.  The default for this parameter is calculated specially, like `confdir`_.
+    # Where Puppet stores dynamic and growing data.  The default for this setting is calculated specially, like `confdir`_.
     # The default value is '/var/lib/puppet'.
     # vardir = /var/lib/puppet
 
@@ -51,18 +51,16 @@
     # on the CLI.
     # genmanifest = false
 
-    # Print the value of a specific configuration parameter.  If a
-    # parameter is provided for this, then the value is printed and puppet
+    # Print the value of a specific configuration setting.  If the name of a
+    # setting is provided for this, then the value is printed and puppet
     # exits.  Comma-separate multiple values.  For a list of all values,
-    # specify 'all'.  This feature is only available in Puppet versions
-    # higher than 0.18.4.
+    # specify 'all'.
     # The default value is ''.
     # configprint = 
 
-    # Whether to use colors when logging to the console.
-    # Valid values are `ansi` (equivalent to `true`), `html` (mostly
-    # used during testing with TextMate), and `false`, which produces
-    # no color.
+    # Whether to use colors when logging to the console.  Valid values are
+    # `ansi` (equivalent to `true`), `html`, and `false`, which produces no color.
+    # Defaults to false on Windows, as its console does not support ansi colors.
     # The default value is 'ansi'.
     # color = ansi
 
@@ -92,9 +90,9 @@
     # The default value is '$vardir/lib'.
     libdir = /var/lib/puppet/lib
 
-    # A parameter that can be used in commit
-    # hooks, since it enables you to parse-check a single file rather
-    # than requiring that all files exist.
+    # If true, allows the parser to continue without requiring
+    # all files referenced with `import` statements to exist. This setting was primarily
+    # designed for use with commit hooks for parse-checking.
     # ignoreimport = false
 
     # The configuration file that defines the rights to the different
@@ -110,11 +108,14 @@
     # The default value is 'production'.
     # environment = production
 
-    # Which arguments to pass to the diff command when printing differences between files.
+    # Which arguments to pass to the diff command when printing differences between
+    # files. The command to use can be chosen with the `diff` setting.
     # The default value is '-u'.
     # diff_args = -u
 
-    # Which diff command to use when printing differences between files.
+    # Which diff command to use when printing differences between files. This setting
+    # has no default value on Windows, as standard `diff` is not available, but Puppet can use many
+    # third-party diff tools.
     # The default value is 'diff'.
     # diff = diff
 
@@ -124,7 +125,8 @@
     # This feature currently requires the `diff/lcs` Ruby library.
     # show_diff = false
 
-    # Send the process into the background.  This is the default.
+    # Whether to send the process into the background.  This defaults to true on POSIX systems,
+    # and to false on Windows (where Puppet currently cannot daemonize).
     # The default value is 'true'.
     # daemonize = true
 
@@ -331,7 +333,7 @@
     # pluginsignore = .svn CVS .git
 
     # Where Puppet should look for facts.  Multiple directories should
-    # be colon-separated, like normal PATH variables.
+    # be separated by the system path separator character. (The POSIX path separator is ':', and the Windows path separator is ';'.)
     # The default value is '$vardir/lib/facter:$vardir/facts'.
     factpath = /var/lib/puppet/lib/facter:/var/lib/puppet/facts
 
@@ -353,10 +355,10 @@
     # The default value is '.svn CVS'.
     # factsignore = .svn CVS
 
-    # An external command that can produce node information.  The output
-    # must be a YAML dump of a hash, and that hash must have one or both of
-    # `classes` and `parameters`, where `classes` is an array and
-    # `parameters` is a hash.  For unknown nodes, the commands should
+    # An external command that can produce node information.  The command's output
+    # must be a YAML dump of a hash, and that hash must have a `classes` key and/or
+    # a `parameters` key, where `classes` is an array or hash and
+    # `parameters` is a hash.  For unknown nodes, the command should
     # exit with a non-zero exit code.
     # This command makes it straightforward to store your node mapping
     # information in other data sources like databases.
@@ -426,15 +428,15 @@
     # request to overwrite an existing certificate.
     # allow_duplicate_certs = false
 
-    # How long a certificate should be valid.
-    # This parameter is deprecated, use ca_ttl instead
+    # How long a certificate should be valid, in days.
+    # This setting is deprecated; use `ca_ttl` instead
     # The default value is ''.
     # ca_days = 
 
     # The default TTL for new certificates; valid values
     # must be an integer, optionally followed by one of the units
     # 'y' (years of 365 days), 'd' (days), 'h' (hours), or
-    # 's' (seconds). The unit defaults to seconds. If this parameter
+    # 's' (seconds). The unit defaults to seconds. If this setting
     # is set, ca_days is ignored. Examples are '3600' (one hour)
     # and '1825d', which is the same as '5y' (5 years) 
     # The default value is '5y'.
@@ -445,12 +447,12 @@
     # ca_md = md5
 
     # The bit length of the certificates.
-    # The default value is '2048'.
-    # req_bits = 2048
+    # The default value is '4096'.
+    # req_bits = 4096
 
     # The bit length of keys.
-    # The default value is '1024'.
-    # keylength = 1024
+    # The default value is '4096'.
+    # keylength = 4096
 
     # A Complete listing of all certificates
     # The default value is '$cadir/inventory.txt'.
@@ -534,7 +536,7 @@
     # The default value is 'true'.
     # ca = true
 
-    # The search path for modules as a list of directories separated by the ':' character.
+    # The search path for modules, as a list of directories separated by the system path separator character. (The POSIX path separator is ':', and the Windows path separator is ';'.)
     # The default value is '$confdir/modules:/usr/share/puppet/modules'.
     modulepath = /etc/puppet/modules:/usr/share/puppet/modules
 
@@ -986,7 +988,7 @@
     # Whether to use lexical scoping (vs. dynamic).
     # lexical = false
 
-    # Where Puppet looks for template files.  Can be a list of colon-seperated
+    # Where Puppet looks for template files.  Can be a list of colon-separated
     # directories.
     # The default value is '$vardir/templates'.
     templatedir = /var/lib/puppet/templates

@@ -27,7 +27,7 @@
 #
 
 PRGNAM=puppet
-VERSION=${VERSION:-2.7.11}
+VERSION=${VERSION:-2.7.12}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_sid77}
 
@@ -106,7 +106,7 @@ cat $CWD/rc.puppetmaster.new > $PKG/etc/rc.d/rc.puppetmaster.new
 cat $CWD/rc.puppetmaster.conf.new > $PKG/etc/rc.d/rc.puppetmaster.conf.new
 # Add sample configuration files
 cat $CWD/puppet.conf.sample-master > $PKG/etc/puppet/puppet.conf.sample-master
-cat $CWD/puppet.conf.sample-client > $PKG/etc/puppet/puppet.conf.sample-client
+cat $CWD/puppet.conf.sample-agent > $PKG/etc/puppet/puppet.conf.sample-agent
 
 ## Compress man pages - for future reference
 #find $PKG/usr/man -type f -exec gzip -9 {} \;
