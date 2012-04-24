@@ -27,7 +27,7 @@
 #
 
 PRGNAM=puppet
-VERSION=${VERSION:-2.7.12}
+VERSION=${VERSION:-2.7.13}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_sid77}
 
