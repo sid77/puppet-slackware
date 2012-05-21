@@ -21,5 +21,5 @@ config etc/mcollective/server.cfg.new
 config etc/mcollective/client.cfg.new
 config etc/mcollective/facts.yaml.new
 config etc/mcollective/rpc-help.erb.new
-config etc/rc.d/rc.mcollectived.new
+config etc/rc.d/rc.mcollective.new
 

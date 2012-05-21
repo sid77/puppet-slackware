@@ -27,7 +27,7 @@
 #
 
 PRGNAM=mcollective
-VERSION=${VERSION:-1.2.1}
+VERSION=${VERSION:-2.0.0}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_sid77}
 
@@ -44,7 +44,7 @@ elif [ "$ARCH" = "x86_64" ]; then
   LIBDIRSUFFIX="64"
 fi
 
-DOCS="COPYING"
+DOCS="COPYING ext"
 
 set -e
 
@@ -62,31 +62,26 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-# I swear these are the official installation instruction, straight from the
-# RH/SUSE mcollective.spec shipped within the source code
-#install -d -m0755 $PKG/usr/lib${LIBDIRSUFFIX}/ruby/site_ruby/1.8/mcollective
-install -d -m0755 $PKG/opt/ruby/1.9.2-p180/lib/ruby/site_ruby/1.9.1/mcollective
-install -d -m0755 $PKG/usr/sbin
-install -d -m0755 $PKG/etc/rc.d
-install -d -m0755 $PKG/usr/libexec/mcollective/
-install -d -m0755 $PKG/etc/mcollective
-install -d -m0755 $PKG/etc/mcollective/ssl
-install -d -m0755 $PKG/etc/mcollective/ssl/clients
-install -m0755 mcollectived.rb $PKG/usr/sbin/mcollectived
-install -m0640 etc/server.cfg.dist $PKG/etc/mcollective/server.cfg.new
-install -m0644 etc/client.cfg.dist $PKG/etc/mcollective/client.cfg.new
-install -m0444 etc/facts.yaml.dist $PKG/etc/mcollective/facts.yaml.new
-install -m0444 etc/rpc-help.erb $PKG/etc/mcollective/rpc-help.erb.new
-install -m0644 $CWD/rc.mcollectived.new $PKG/etc/rc.d/rc.mcollectived.new
-#cp -R lib/* $PKG/usr/lib${LIBDIRSUFFIX}/ruby/site_ruby/1.8/
-cp -R lib/* $PKG/opt/ruby/1.9.2-p180/lib/ruby/site_ruby/1.9.1/
-cp -R plugins/* $PKG/usr/libexec/mcollective/
-cp mc-* $PKG/usr/sbin/
-chmod 0755 $PKG/usr/sbin/mc-*
-# Fix ruby
-find $PKG -type f -exec sed -i -e "s:#!/usr/bin/env ruby:#!/usr/bin/env ruby192:g" \{\} \;
+make -f ext/Makefile install DESTDIR=$PKG
 
-mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+# Fix RHisms, the init script and install the proposed config files. Plus, the
+# Makefile expects ruby1.8 so move the installation over to ruby192
+mv $PKG/etc/init.d $PKG/etc/rc.d
+mv $PKG/etc/rc.d/mcollective $PKG/etc/rc.d/rc.mcollective.new
+sed -i -e 's:. /lib/lsb/init-functions:#. /lib/lsb/init-functions:g' $PKG/etc/rc.d/rc.mcollective.new
+sed -i -e 's:log_success_msg::g' $PKG/etc/rc.d/rc.mcollective.new
+sed -i -e 's:log_failure_msg::g' $PKG/etc/rc.d/rc.mcollective.new
+mv $PKG/etc/mcollective/client.cfg.dist $PKG/etc/mcollective/client.cfg.new
+mv $PKG/etc/mcollective/facts.yaml.dist $PKG/etc/mcollective/facts.yaml.new
+mv $PKG/etc/mcollective/rpc-help.erb $PKG/etc/mcollective/rpc-help.erb.new
+mv $PKG/etc/mcollective/server.cfg.dist $PKG/etc/mcollective/server.cfg.new
+mkdir -p $PKG/opt/ruby/1.9.2-p180/lib/ruby/1.9.1
+mv $PKG/usr/lib/ruby/1.8/* $PKG/opt/ruby/1.9.2-p180/lib/ruby/1.9.1/
+rm -rf $PKG/usr/lib
+sed -i -e 's:#!/usr/bin/env ruby:#!/usr/bin/env ruby192:g' $PKG/usr/sbin/mcollectived
+mv $PKG/usr/share/doc $PKG/usr/doc
+mv $PKG/usr/doc/mcollective $PKG/usr/doc/$PRGNAM-$VERSION
+
 cp -a $DOCS $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
