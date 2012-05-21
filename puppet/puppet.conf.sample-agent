@@ -7,7 +7,7 @@
 # their specification.  Puppet will sometimes use these parameters to check its
 # own configured state, so they can be used to make Puppet a bit more self-managing.
 # 
-# Generated on 2012-04-24 12:37:50 +0200.
+# Generated on 2012-05-21 11:08:46 +0200.
 # 
 [agent]
     # The main Puppet configuration directory.  The default for this setting is calculated based on the user.  If the process
@@ -28,7 +28,8 @@
     # trace = false
 
     # Whether log files should always flush to disk.
-    # autoflush = false
+    # The default value is 'true'.
+    # autoflush = true
 
     # What syslog facility to use when logging to
     # syslog.  Syslog has a fixed list of valid facilities, and you must
